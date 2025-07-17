@@ -1,3 +1,6 @@
 # compiled/optimized
 __pycache__/
 *.py[codz]
+
+# mypy
+mypy.ini
