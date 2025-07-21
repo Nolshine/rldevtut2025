@@ -4,14 +4,15 @@ from typing import Optional
 import tcod
 
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
-from config.input import movement_keys
+from config.input import KeybindConfigurator
 
 from input_handlers import State, DefaultState
 from actions import Action, MovementAction, EscapeAction
 
 
 def main() -> None:
-    state: State = DefaultState(movement_keys)
+    kb_config: KeybindConfigurator = KeybindConfigurator()
+    state: State = DefaultState(kb_config.movement_keys)
 
     tileset: tcod.tileset.Tileset = tcod.tileset.load_tilesheet(
         TILESHEET,

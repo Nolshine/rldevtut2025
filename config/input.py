@@ -1,12 +1,29 @@
+import pickle
+import pathlib
+
 import tcod.event
 
-movement_keys: dict[tcod.event.KeySym, tuple[int, int]] = {
-    tcod.event.KeySym.KP_8: (0, -1),     # up
-    tcod.event.KeySym.KP_9: (1, -1),     # up-right
-    tcod.event.KeySym.KP_6: (1, 0),      # right
-    tcod.event.KeySym.KP_3: (1, 1),      # down-right
-    tcod.event.KeySym.KP_2: (0, 1),      # down
-    tcod.event.KeySym.KP_1: (-1, 1),     # down-left
-    tcod.event.KeySym.KP_4: (-1, 0),     # left
-    tcod.event.KeySym.KP_7: (-1, -1),    # up-left
-}
+KEYBINDS_PATH: pathlib.Path = pathlib.Path("config/keybinds.cfg")
+DEFAULT_KEYBINDS_PATH: pathlib.Path = pathlib.Path("config/default_keybinds.cfg")
+
+class KeybindConfigurator:
+    movement_keys: dict[tcod.event.KeySym, tuple[int, int]]
+    # wait_keys: list[tcod.event.KeySym]
+    # system_keys: TBD
+
+    # TODO: Figure out a sensible way to store multiple categories of keys in one file
+
+    def __init__(self):
+        # determine if a user-defined set of keybinds exists
+        if KEYBINDS_PATH.exists():
+            self.load(KEYBINDS_PATH)
+        else:
+            self.load(DEFAULT_KEYBINDS_PATH)
+
+    def load(self, path: pathlib.Path) -> None:
+        # NOTE: atm will only load the move keys dictionary
+        with open(path, 'rb') as f:
+            self.movement_keys = pickle.load(f)
+
+    def save(self, path: pathlib.Path) -> None:
+        raise NotImplementedError
