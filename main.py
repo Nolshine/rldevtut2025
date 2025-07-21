@@ -4,13 +4,14 @@ from typing import Optional
 import tcod
 
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
+from config.input import movement_keys
 
 from input_handlers import State, DefaultState
 from actions import Action, MovementAction, EscapeAction
 
 
 def main() -> None:
-    state: State = DefaultState()
+    state: State = DefaultState(movement_keys)
 
     tileset: tcod.tileset.Tileset = tcod.tileset.load_tilesheet(
         TILESHEET,
@@ -40,13 +41,12 @@ def main() -> None:
             action: Optional[Action] = None
 
             for event in tcod.event.wait():
-                print(event)
                 action = state.on_event(event)
 
                 if action is None:
                     continue
 
-                if isinstance(action, MovementAction): # TODO: make intellisense see 'action' as only MovementAction here
+                if isinstance(action, MovementAction):
                     player_x += action.dx
                     player_y += action.dy
 

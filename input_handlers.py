@@ -3,7 +3,6 @@ from typing import Optional, Protocol
 import tcod.event
 
 from actions import Action, EscapeAction, MovementAction
-from config.input import movement_keys
 
 
 
@@ -12,7 +11,12 @@ class State(Protocol):
         ...
 
 
-class DefaultState():
+class DefaultState:
+    mv_keys: dict[tcod.event.KeySym, tuple[int, int]]
+
+    def __init__(self, movement_keys: dict[tcod.event.KeySym, tuple[int, int]]):
+        self.mv_keys = movement_keys
+
     def on_event(self, event: tcod.event.Event, /) -> Optional[Action]:
         match event:
             case tcod.event.Quit():
@@ -23,7 +27,7 @@ class DefaultState():
                 pass
 
     def handle_key(self, sym: tcod.event.KeySym) -> Optional[Action]:
-        if sym in movement_keys:
-            return MovementAction(*movement_keys[sym])
+        if sym in self.mv_keys:
+            return MovementAction(*self.mv_keys[sym])
         if sym == tcod.event.KeySym.ESCAPE:
             return EscapeAction()
