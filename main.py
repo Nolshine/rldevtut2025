@@ -6,8 +6,10 @@ import tcod
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
 from config.input import KeybindConfigurator
 
-from states.states import State, DefaultState
+from states.state import State
+from states.states import DefaultState
 from actions.actions import Action, MovementAction, EscapeAction
+from entities.entity import Entity
 
 
 def main() -> None:
@@ -21,8 +23,7 @@ def main() -> None:
         tcod.tileset.CHARMAP_TCOD,
     )
 
-    player_x: int = int(SCREEN_WIDTH/2)
-    player_y: int = int(SCREEN_HEIGHT/2)
+    player: Entity = Entity(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "@", (255, 255, 255))
 
     with tcod.context.new(
         columns=SCREEN_WIDTH,
@@ -35,7 +36,7 @@ def main() -> None:
         root_console = tcod.console.Console(SCREEN_WIDTH, SCREEN_HEIGHT, order="F")
         while True:
             root_console.clear()
-            root_console.print(x=player_x, y=player_y, text="@")
+            root_console.print(x=player.x, y=player.y, text=player.char, fg=player.color)
 
             context.present(root_console, integer_scaling=True)
 
@@ -48,8 +49,7 @@ def main() -> None:
                     continue
 
                 if isinstance(action, MovementAction):
-                    player_x += action.dx
-                    player_y += action.dy
+                    player.move(action.dx, action.dy)
 
                 if isinstance(action, EscapeAction):
                     raise SystemExit
