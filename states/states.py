@@ -1,14 +1,8 @@
-from typing import Optional, Protocol
+from typing import Optional
 
 import tcod.event
 
-from actions import Action, EscapeAction, MovementAction
-
-
-
-class State(Protocol):
-    def on_event(self, event: tcod.event.Event, /) -> Optional[Action]:
-        ...
+from actions.actions import Action, EscapeAction, MovementAction
 
 
 class DefaultState:

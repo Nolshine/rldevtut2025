@@ -6,8 +6,8 @@ import tcod
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
 from config.input import KeybindConfigurator
 
-from input_handlers import State, DefaultState
-from actions import Action, MovementAction, EscapeAction
+from states.states import State, DefaultState
+from actions.actions import Action, MovementAction, EscapeAction
 
 
 def main() -> None:
