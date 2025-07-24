@@ -22,8 +22,11 @@ def main() -> None:
     )
 
     player: Entity = Entity(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "@", (255, 255, 255))
+    npc: Entity = Entity(player.x + 3, player.y, "@", (255, 255, 150))
+    entities = {player, npc}
 
-    engine: Engine = Engine({player}, initial_state, player)
+    engine: Engine = Engine(entities, initial_state, player)
+    engine.new_map(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     with tcod.context.new(
         columns=SCREEN_WIDTH,

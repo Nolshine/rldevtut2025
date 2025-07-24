@@ -7,9 +7,11 @@ import tcod.event
 from actions.actions import Action, EscapeAction, MovementAction
 from entities.entity import Entity
 from states.state import State
+from game_map.game_map import GameMap
 
 
 class Engine:
+    game_map: GameMap
     entities: set[Entity]
     current_state: State
     player: Entity
@@ -18,6 +20,9 @@ class Engine:
         self.entities = entities
         self.current_state = initial_state
         self.player = player
+
+    def new_map(self, width: int, height: int) -> None: # eventually, the desired generator will be fed in as a parameter.
+        self.game_map = GameMap(width, height)
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
         # block by listening to input here
@@ -36,6 +41,8 @@ class Engine:
         # follow with all AI turns
 
     def render(self, console: Console, context: Context) -> None:
+        self.game_map.render(console)
+
         for entity in self.entities:
             console.print(x=entity.x, y=entity.y, text=entity.char, fg=entity.color)
 
