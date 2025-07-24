@@ -1,8 +1,12 @@
-from typing import Optional
+from __future__ import annotations
+from typing import Optional, TYPE_CHECKING
 
 import tcod.event
 
-from actions.actions import Action, EscapeAction, MovementAction
+from actions.actions import EscapeAction, MovementAction
+
+if TYPE_CHECKING:
+    from actions.action import Action
 
 
 class DefaultState:

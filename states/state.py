@@ -1,8 +1,10 @@
-from typing import Protocol, Optional
+from __future__ import annotations
+from typing import Protocol, Optional, TYPE_CHECKING
 
 import tcod
 
-from actions.actions import Action
+if TYPE_CHECKING:
+    from actions.action import Action
 
 
 class State(Protocol):

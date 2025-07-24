@@ -1,14 +1,16 @@
-from typing import Iterable, Optional
+from __future__ import annotations
+from typing import Iterable, Optional, TYPE_CHECKING
 
 from tcod.context import Context
 from tcod.console import Console
 import tcod.event
 
-from actions.actions import Action, EscapeAction, MovementAction
-from entities.entity import Entity
-from states.state import State
 from game_map.game_map import GameMap
 
+if TYPE_CHECKING:
+    from states.state import State
+    from entities.entity import Entity
+    from actions.action import Action
 
 class Engine:
     game_map: GameMap
@@ -33,11 +35,7 @@ class Engine:
             if action is None:
                     continue
 
-            if isinstance(action, MovementAction):
-                self.player.move(action.dx, action.dy)
-
-            if isinstance(action, EscapeAction):
-                raise SystemExit
+            action.perform(self, self.player)
         # follow with all AI turns
 
     def render(self, console: Console, context: Context) -> None:

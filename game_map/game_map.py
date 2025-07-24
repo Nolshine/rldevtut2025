@@ -19,5 +19,8 @@ class GameMap:
         """Returns true if given position is inside the map bounds."""
         return 0 <= x < self.width and 0 <= y < self.height
 
+    def is_walkable(self, x: int, y: int) -> bool:
+        return self.tiles[x, y]["walkable"]
+
     def render(self, console: Console) -> None:
         console.rgb[0:self.width, 0:self.height] = self.tiles["dark"]
