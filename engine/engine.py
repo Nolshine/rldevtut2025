@@ -44,5 +44,5 @@ class Engine:
         for entity in self.entities:
             console.print(x=entity.x, y=entity.y, text=entity.char, fg=entity.color)
 
-        context.present(console)
+        context.present(console=console, integer_scaling=True)
         console.clear()

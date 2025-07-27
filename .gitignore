@@ -4,3 +4,9 @@ __pycache__/
 
 # mypy
 mypy.ini
+
+# GIMP
+*.xcf
+
+# old font (kept internally for testing purposes)
+dejavu10x10_gs_tc.png
