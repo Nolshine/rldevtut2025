@@ -11,9 +11,7 @@ class GameMap:
 
     def __init__(self, width: int, height: int) -> None:
         self.width, self.height = width, height
-        self.tiles = np.full(shape=(width, height), fill_value=tile_types.floor)
-
-        self.tiles[30:33, 22] = tile_types.wall
+        self.tiles = np.full(shape=(width, height), fill_value=tile_types.wall)
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Returns true if given position is inside the map bounds."""

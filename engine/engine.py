@@ -6,6 +6,7 @@ from tcod.console import Console
 import tcod.event
 
 from game_map.game_map import GameMap
+from game_map.procgen import basic_generator
 
 if TYPE_CHECKING:
     from states.state import State
@@ -24,7 +25,7 @@ class Engine:
         self.player = player
 
     def new_map(self, width: int, height: int) -> None: # eventually, the desired generator will be fed in as a parameter.
-        self.game_map = GameMap(width, height)
+        self.game_map = basic_generator(width, height)
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
         # block by listening to input here
