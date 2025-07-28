@@ -24,8 +24,8 @@ class Engine:
         self.current_state = initial_state
         self.player = player
 
-    def new_map(self, width: int, height: int) -> None: # eventually, the desired generator will be fed in as a parameter.
-        self.game_map = basic_generator(width, height)
+    def new_map(self, width: int, height: int, room_min_size: int, room_max_size: int, max_rooms: int) -> None: # eventually, the desired generator will be fed in as a parameter.
+        self.game_map = basic_generator(width, height, room_min_size, room_max_size, max_rooms, self.player)
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
         # block by listening to input here

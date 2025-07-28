@@ -2,7 +2,7 @@
 import tcod
 
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
-from config.map import MAP_WIDTH, MAP_HEIGHT#, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS
+from config.map import MAP_WIDTH, MAP_HEIGHT, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS
 from config.input import KeybindConfigurator
 
 from states.state import State
@@ -23,11 +23,10 @@ def main() -> None:
     )
 
     player: Entity = Entity(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "@", (255, 255, 255))
-    npc: Entity = Entity(player.x + 3, player.y, "@", (255, 255, 150))
-    entities = {player, npc}
+    entities = {player}
 
     engine: Engine = Engine(entities, initial_state, player)
-    engine.new_map(MAP_WIDTH, MAP_HEIGHT)
+    engine.new_map(MAP_WIDTH, MAP_HEIGHT, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS)
 
     with tcod.context.new(
         columns=SCREEN_WIDTH,
