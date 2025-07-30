@@ -81,7 +81,7 @@ def basic_generator(
 
     rooms: list[RectangularRoom] = []
 
-    for r in range(max_rooms): # type ignore
+    for r in range(max_rooms): # type: ignore
         print(rooms)
         room_width: int = random.randint(room_min_size, room_max_size)
         room_height: int = random.randint(room_min_size, room_max_size)
