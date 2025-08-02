@@ -26,7 +26,6 @@ class DefaultState:
 
     def handle_key(self, sym: tcod.event.KeySym) -> Optional[Action]:
         if sym in self.mv_keys:
-            print(*self.mv_keys[sym])
             return MovementAction(*self.mv_keys[sym])
         if sym == tcod.event.KeySym.ESCAPE:
             return EscapeAction()
