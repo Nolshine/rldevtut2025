@@ -7,7 +7,6 @@ from tcod.map import compute_fov
 import tcod.event
 
 from game_map.game_map import GameMap
-from game_map.procgen import basic_generator
 
 from config.gameplay import PLAYER_FOV_RADIUS
 
@@ -22,13 +21,11 @@ class Engine:
     current_state: State
     player: Entity
 
-    def __init__(self, entities: set[Entity], initial_state: State, player: Entity) -> None:
+    def __init__(self, entities: set[Entity], initial_state: State, game_map: GameMap, player: Entity) -> None:
         self.entities = entities
         self.current_state = initial_state
+        self.game_map = game_map
         self.player = player
-
-    def new_map(self, width: int, height: int, room_min_size: int, room_max_size: int, max_rooms: int) -> None: # eventually, the desired generator will be fed in as a parameter.
-        self.game_map = basic_generator(width, height, room_min_size, room_max_size, max_rooms, self.player)
         self.update_fov()
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
