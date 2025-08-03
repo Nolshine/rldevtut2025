@@ -77,7 +77,7 @@ def basic_generator(
         max_rooms: int,
         player: Entity,
 ) -> GameMap:
-    dungeon = GameMap(map_width, map_height)
+    dungeon = GameMap(map_width, map_height, entities=[player])
 
     rooms: list[RectangularRoom] = []
 

@@ -24,7 +24,6 @@ def main() -> None:
     )
 
     player: Entity = Entity(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "@", (255, 255, 255))
-    entities = {player}
     game_map = basic_generator(
         map_width=MAP_WIDTH,
         map_height=MAP_HEIGHT,
@@ -33,7 +32,7 @@ def main() -> None:
         max_rooms=MAX_ROOMS,
         player=player,
     )
-    engine = Engine(entities, initial_state, game_map, player)
+    engine = Engine(initial_state, game_map, player)
 
     with tcod.context.new(
         columns=SCREEN_WIDTH,

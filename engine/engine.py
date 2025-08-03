@@ -17,12 +17,10 @@ if TYPE_CHECKING:
 
 class Engine:
     game_map: GameMap
-    entities: set[Entity]
     current_state: State
     player: Entity
 
-    def __init__(self, entities: set[Entity], initial_state: State, game_map: GameMap, player: Entity) -> None:
-        self.entities = entities
+    def __init__(self, initial_state: State, game_map: GameMap, player: Entity) -> None:
         self.current_state = initial_state
         self.game_map = game_map
         self.player = player
@@ -57,11 +55,6 @@ class Engine:
 
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)
-
-        for entity in self.entities:
-            if not self.game_map.visible[entity.x, entity.y]:
-                continue
-            console.print(x=entity.x, y=entity.y, text=entity.char, fg=entity.color)
 
         context.present(console=console, integer_scaling=True)
         console.clear()
