@@ -36,8 +36,15 @@ class Engine:
                     continue
 
             action.perform(self, self.player)
-        # follow with all AI turns
+
+        self.handle_enemy_turns()
+
         self.update_fov()
+
+    def handle_enemy_turns(self) -> None:
+         for ent in self.game_map.entities - {self.player}:
+              print(f"The {ent.name} wonders when it will get to have a real turn.")
+
 
     def update_fov(self) -> None:
         """

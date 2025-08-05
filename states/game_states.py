@@ -3,7 +3,7 @@ from typing import Optional, TYPE_CHECKING
 
 import tcod.event
 
-from actions.actions import EscapeAction, MovementAction
+from actions.actions import EscapeAction, BumpAction
 
 if TYPE_CHECKING:
     from actions.action import Action
@@ -26,6 +26,6 @@ class DefaultState:
 
     def handle_key(self, sym: tcod.event.KeySym) -> Optional[Action]:
         if sym in self.mv_keys:
-            return MovementAction(*self.mv_keys[sym])
+            return BumpAction(*self.mv_keys[sym])
         if sym == tcod.event.KeySym.ESCAPE:
             return EscapeAction()

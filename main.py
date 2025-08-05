@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
+import copy
+
 import tcod
 
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
-from config.map import MAP_WIDTH, MAP_HEIGHT, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS
+from config.map import MAP_WIDTH, MAP_HEIGHT, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS, MAX_MONSTERS_PER_ROOM
 from config.input import KeybindConfigurator
 
 from states.state import State
 from states.game_states import DefaultState
+from entities import entity_factories
 from entities.entity import Entity
 from engine.engine import Engine
 from game_map.procgen import basic_generator
@@ -23,13 +26,14 @@ def main() -> None:
         tcod.tileset.CHARMAP_TCOD,
     )
 
-    player: Entity = Entity(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "@", (255, 255, 255))
+    player: Entity = copy.deepcopy(entity_factories.player)
     game_map = basic_generator(
         map_width=MAP_WIDTH,
         map_height=MAP_HEIGHT,
         room_min_size=ROOM_MIN_SIZE,
         room_max_size=ROOM_MAX_SIZE,
         max_rooms=MAX_ROOMS,
+        max_monsters_per_room=MAX_MONSTERS_PER_ROOM,
         player=player,
     )
     engine = Engine(initial_state, game_map, player)

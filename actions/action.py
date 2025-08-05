@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Protocol, TYPE_CHECKING
+from typing import Protocol, TypeAlias, TYPE_CHECKING
 
 
 if TYPE_CHECKING:
@@ -10,3 +10,5 @@ if TYPE_CHECKING:
 class Action(Protocol):
     def perform(self, engine: Engine, entity: Entity) -> None:
         ...
+
+Direction: TypeAlias = tuple[int, int]

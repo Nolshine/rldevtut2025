@@ -4,3 +4,4 @@ MAP_HEIGHT: int = 45
 ROOM_MIN_SIZE: int = 6
 ROOM_MAX_SIZE: int = 10
 MAX_ROOMS: int = 30
+MAX_MONSTERS_PER_ROOM: int = 2

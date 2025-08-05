@@ -7,6 +7,7 @@ from tcod.los import bresenham
 
 from game_map.game_map import GameMap
 import game_map.tile_types as tile_types
+from entities import entity_factories
 
 if TYPE_CHECKING:
     from entities.entity import Entity
@@ -43,6 +44,23 @@ class RectangularRoom:
             and self.y2 >= other.y1
         )
 
+def place_entities(
+        room: RectangularRoom,
+        dungeon: GameMap,
+        max_monsters: int,
+) -> None:
+    num_monsters = random.randint(0, max_monsters)
+
+    for i in range(num_monsters): #type: ignore
+        x = random.randint(room.x1 + 1, room.x2 - 1)
+        y = random.randint(room.y1 + 1, room.y2 - 1)
+
+        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+            if random.random() < 0.8:
+                entity_factories.orc.spawn(dungeon, x, y)
+            else:
+                entity_factories.troll.spawn(dungeon, x, y)
+
 def tunnel_between(
         start: tuple[int, int],
         end: tuple[int, int],
@@ -75,6 +93,7 @@ def basic_generator(
         room_min_size: int,
         room_max_size: int,
         max_rooms: int,
+        max_monsters_per_room: int,
         player: Entity,
 ) -> GameMap:
     dungeon = GameMap(map_width, map_height, entities=[player])
@@ -101,6 +120,8 @@ def basic_generator(
         else:
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = tile_types.floor
+
+        place_entities(new_room, dungeon, max_monsters_per_room)
 
         rooms.append(new_room)
 

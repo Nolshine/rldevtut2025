@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Iterable, TYPE_CHECKING
+from typing import Iterable, Optional,  TYPE_CHECKING
 
 import numpy as np
 from tcod.console import Console
@@ -33,6 +33,14 @@ class GameMap:
 
     def is_walkable(self, x: int, y: int) -> bool:
         return self.tiles[x, y]["walkable"]
+
+    def get_blocking_entity(self, x: int, y: int) -> Optional[Entity]:
+        for ent in self.entities:
+            if not (ent.x == x and ent.y == y):
+                continue
+            elif ent.blocks_movement:
+                return ent
+        return None
 
     def render(self, console: Console) -> None:
         """
