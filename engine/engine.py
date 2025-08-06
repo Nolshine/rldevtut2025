@@ -1,6 +1,8 @@
 from __future__ import annotations
 from typing import Iterable, Optional, TYPE_CHECKING
 
+import attrs
+
 from tcod.context import Context
 from tcod.console import Console
 from tcod.map import compute_fov
@@ -15,16 +17,14 @@ if TYPE_CHECKING:
     from entities.entity import Entity
     from actions.action import Action
 
+@attrs.define
 class Engine:
-    game_map: GameMap
     current_state: State
+    game_map: GameMap
     player: Entity
 
-    def __init__(self, initial_state: State, game_map: GameMap, player: Entity) -> None:
-        self.current_state = initial_state
-        self.game_map = game_map
-        self.player = player
-        self.update_fov()
+    def __attrs_post_init(self) -> None: # pyright: ignore[reportUnusedFunction]
+         self.update_fov()
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
         # block by listening to input here

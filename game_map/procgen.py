@@ -3,6 +3,8 @@ from typing import Iterator, TYPE_CHECKING
 
 import random
 
+import attrs
+
 from tcod.los import bresenham
 
 from game_map.game_map import GameMap
@@ -13,18 +15,17 @@ if TYPE_CHECKING:
     from entities.entity import Entity
 
 
-
+@attrs.define
 class RectangularRoom:
     x1: int
     x2: int
     y1: int
     y2: int
 
-    def __init__(self, x: int, y: int, width: int, height: int) -> None:
-        self.x1 = x
-        self.x2 = x + width
-        self.y1 = y
-        self.y2 = y + height
+    @classmethod
+    def by_size(cls, x: int, y: int, width: int, height: int) -> "RectangularRoom":
+        return cls(x1=x, x2=x+width, y1=y, y2=y+height)
+
 
     @property
     def center(self) -> tuple[int, int]:
@@ -107,7 +108,7 @@ def basic_generator(
         x = random.randint(0, dungeon.width - room_width - 1)
         y = random.randint(0, dungeon.height - room_height - 1)
 
-        new_room = RectangularRoom(x, y, room_width, room_height)
+        new_room = RectangularRoom.by_size(x=x, y=y, width=room_width, height=room_height)
 
         if any(new_room.intersects(other_room) for other_room in rooms):
             continue # intersection; throw away room
