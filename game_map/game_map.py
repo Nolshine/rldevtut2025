@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Iterable, Optional,  TYPE_CHECKING
 
+import attrs
+
 import numpy as np
 from tcod.console import Console
 
@@ -10,22 +12,23 @@ import game_map.tile_types as tile_types
 if TYPE_CHECKING:
     from entities.entity import Entity
 
-
+@attrs.define
 class GameMap:
     width: int
     height: int
+    tiles: np.ndarray
     visible: np.ndarray
     explored: np.ndarray
     entities: set[Entity]
 
-    def __init__(self, width: int, height: int, entities: Iterable[Entity] = ()) -> None:
-        self.width, self.height = width, height
+    @classmethod
+    def new(cls, width: int, height: int, entities: Iterable[Entity] = ()) -> "GameMap":
+        tiles = np.full(shape=(width, height), fill_value=tile_types.wall)
+        visible = np.full(shape=(width, height), fill_value=False)
+        explored = np.full(shape=(width, height), fill_value=False)
 
-        self.tiles = np.full(shape=(width, height), fill_value=tile_types.wall)
-        self.visible = np.full(shape=(width, height), fill_value=False)
-        self.explored = np.full(shape=(width, height), fill_value=False)
-
-        self.entities = set(entities)
+        entities_set = set(entities)
+        return cls(width=width, height=height, tiles=tiles, visible=visible, explored=explored, entities=entities_set)
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Returns true if given position is inside the map bounds."""
