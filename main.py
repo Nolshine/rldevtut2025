@@ -5,8 +5,8 @@ import tcod
 
 from config.engine import SCREEN_WIDTH, SCREEN_HEIGHT, TILESHEET, TILESHEET_COLS, TILESHEET_ROWS
 from config.map import MAP_WIDTH, MAP_HEIGHT, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAX_ROOMS, MAX_MONSTERS_PER_ROOM
-from config.input import KeybindConfigurator
 
+from input.keybind_configurator import KeybindConfigurator
 from states.state import State
 from states.game_states import DefaultState
 from entities import entity_factories
@@ -16,7 +16,7 @@ from game_map.procgen import basic_generator
 
 
 def main() -> None:
-    kb_config: KeybindConfigurator = KeybindConfigurator()
+    kb_config: KeybindConfigurator = KeybindConfigurator.first_load()
     initial_state: State = DefaultState(kb_config.movement_keys)
 
     tileset: tcod.tileset.Tileset = tcod.tileset.load_tilesheet(
