@@ -23,7 +23,7 @@ class Engine:
     game_map: GameMap
     player: Entity
 
-    def __attrs_post_init(self) -> None: # pyright: ignore[reportUnusedFunction]
+    def __attrs_post_init__(self) -> None: # pyright: ignore[reportUnusedFunction]
          self.update_fov()
 
     def update(self, events: Iterable[tcod.event.Event]) -> None:
@@ -32,14 +32,10 @@ class Engine:
         for event in events:
             action: Optional[Action] = self.current_state.on_event(event)
 
-            if action is None:
-                    continue
-
-            action.perform(self, self.player)
-
-        self.handle_enemy_turns()
-
-        self.update_fov()
+            if action is not None:
+                action.perform(self, self.player)
+                self.handle_enemy_turns()
+                self.update_fov()
 
     def handle_enemy_turns(self) -> None:
          for ent in self.game_map.entities - {self.player}:
